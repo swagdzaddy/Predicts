@@ -1,76 +1,181 @@
-"use client"
+"use client";
 
-import * as React from "react"
+import * as React from "react";
+import Link from "next/link";
 import {
-  BarChart3Icon,
-  HomeIcon,
-  TrendingUpIcon,
-  SettingsIcon,
-  ActivityIcon,
-} from "lucide-react"
+  TrendingUp,
+  LayoutDashboard,
+  Search,
+  Bell,
+  History,
+  BarChart3,
+  Settings,
+  HelpCircle,
+  Zap,
+  CircleDollarSign,
+  Target
+} from "lucide-react";
 
 import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
-  SidebarGroup,
-  SidebarGroupContent,
-  SidebarGroupLabel,
   SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-} from "@/components/ui/sidebar"
+  SidebarGroup,
+  SidebarGroupLabel,
+  SidebarGroupContent
+} from "@/components/ui/sidebar";
 
-const menuItems = [
+const navMain = [
   {
     title: "Dashboard",
     url: "/",
-    icon: HomeIcon,
+    icon: LayoutDashboard
   },
   {
-    title: "Arbitrage Opportunities",
-    url: "/arbitrage",
-    icon: TrendingUpIcon,
+    title: "Live Opportunities",
+    url: "/opportunities",
+    icon: Zap
   },
   {
-    title: "Market Analysis",
-    url: "/markets",
-    icon: BarChart3Icon,
+    title: "Market Scanner",
+    url: "/scanner",
+    icon: Search
   },
   {
-    title: "Activity",
-    url: "/activity",
-    icon: ActivityIcon,
-  },
-]
+    title: "My Positions",
+    url: "/positions",
+    icon: Target
+  }
+];
 
-export function AppSidebar() {
+const navMarkets = [
+  {
+    title: "Polymarket",
+    url: "/markets/polymarket",
+    icon: CircleDollarSign
+  },
+  {
+    title: "Kalshi",
+    url: "/markets/kalshi",
+    icon: CircleDollarSign
+  }
+];
+
+const navAnalytics = [
+  {
+    title: "Analytics",
+    url: "/analytics",
+    icon: BarChart3
+  },
+  {
+    title: "History",
+    url: "/history",
+    icon: History
+  },
+  {
+    title: "Alerts",
+    url: "/alerts",
+    icon: Bell
+  }
+];
+
+const navSecondary = [
+  {
+    title: "Settings",
+    url: "/settings",
+    icon: Settings
+  },
+  {
+    title: "Help",
+    url: "/help",
+    icon: HelpCircle
+  }
+];
+
+export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
-    <Sidebar>
-      <SidebarHeader>
-        <div className="flex items-center gap-2 px-2 py-1">
-          <div className="flex size-8 items-center justify-center rounded-none bg-primary text-primary-foreground">
-            <TrendingUpIcon className="size-4" />
-          </div>
-          <div className="flex flex-col">
-            <span className="text-sm font-semibold">Predicts</span>
-            <span className="text-xs text-muted-foreground">Arbitrage Finder</span>
-          </div>
-        </div>
+    <Sidebar collapsible="none" className="h-auto border-r" {...props}>
+      <SidebarHeader className="border-b">
+        <SidebarMenu>
+          <SidebarMenuItem>
+            <SidebarMenuButton asChild className="data-[slot=sidebar-menu-button]:p-1.5!">
+              <Link href="/">
+                <TrendingUp className="size-5!" />
+                <span className="text-base font-semibold">Predicts</span>
+              </Link>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+        </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>Navigation</SidebarGroupLabel>
+          <SidebarGroupLabel>Arbitrage</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {menuItems.map((item) => (
+              {navMain.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
-                    <a href={item.url}>
-                      <item.icon />
+                    <Link href={item.url}>
+                      <item.icon className="size-4" />
                       <span>{item.title}</span>
-                    </a>
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+
+        <SidebarGroup>
+          <SidebarGroupLabel>Markets</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {navMarkets.map((item) => (
+                <SidebarMenuItem key={item.title}>
+                  <SidebarMenuButton asChild>
+                    <Link href={item.url}>
+                      <item.icon className="size-4" />
+                      <span>{item.title}</span>
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+
+        <SidebarGroup>
+          <SidebarGroupLabel>Insights</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {navAnalytics.map((item) => (
+                <SidebarMenuItem key={item.title}>
+                  <SidebarMenuButton asChild>
+                    <Link href={item.url}>
+                      <item.icon className="size-4" />
+                      <span>{item.title}</span>
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+
+        <SidebarGroup className="mt-auto">
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {navSecondary.map((item) => (
+                <SidebarMenuItem key={item.title}>
+                  <SidebarMenuButton asChild>
+                    <Link href={item.url}>
+                      <item.icon className="size-4" />
+                      <span>{item.title}</span>
+                    </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
@@ -78,18 +183,11 @@ export function AppSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
-      <SidebarFooter>
-        <SidebarMenu>
-          <SidebarMenuItem>
-            <SidebarMenuButton asChild>
-              <a href="/settings">
-                <SettingsIcon />
-                <span>Settings</span>
-              </a>
-            </SidebarMenuButton>
-          </SidebarMenuItem>
-        </SidebarMenu>
+      <SidebarFooter className="border-t p-4">
+        <div className="text-xs text-muted-foreground">
+          Monitoring Polymarket & Kalshi
+        </div>
       </SidebarFooter>
     </Sidebar>
-  )
+  );
 }

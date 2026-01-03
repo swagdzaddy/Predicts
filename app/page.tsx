@@ -1,8 +1,13 @@
+"use client"
+
+import * as React from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
 import { TrendingUpIcon, DollarSignIcon, ActivityIcon } from "lucide-react"
+import { ArbitrageDetector } from "@/components/arbitrage-detector"
 
 export default function DashboardPage() {
+  const [activeCount, setActiveCount] = React.useState(0)
+
   return (
     <div className="space-y-6">
       <div>
@@ -21,9 +26,9 @@ export default function DashboardPage() {
             <TrendingUpIcon className="size-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">0</div>
+            <div className="text-2xl font-bold">{activeCount}</div>
             <p className="text-xs text-muted-foreground">
-              No opportunities detected
+              {activeCount === 0 ? 'No opportunities detected' : 'Click to view details'}
             </p>
           </CardContent>
         </Card>
@@ -31,14 +36,14 @@ export default function DashboardPage() {
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">
-              Potential Profit
+              AI Market Matcher
             </CardTitle>
             <DollarSignIcon className="size-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">$0.00</div>
+            <div className="text-2xl font-bold">GPT-4</div>
             <p className="text-xs text-muted-foreground">
-              Combined across all markets
+              Intelligent market matching
             </p>
           </CardContent>
         </Card>
@@ -46,39 +51,20 @@ export default function DashboardPage() {
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">
-              Markets Monitored
+              Detection Status
             </CardTitle>
             <ActivityIcon className="size-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">0</div>
+            <div className="text-2xl font-bold">Ready</div>
             <p className="text-xs text-muted-foreground">
-              Polymarket + Kalshi
+              Click "Run Detection" below
             </p>
           </CardContent>
         </Card>
       </div>
 
-      <Card>
-        <CardHeader>
-          <CardTitle>Recent Arbitrage Opportunities</CardTitle>
-          <CardDescription>
-            Real-time detection of price differences between markets
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="flex items-center justify-center py-12 text-center">
-            <div className="space-y-2">
-              <p className="text-sm text-muted-foreground">
-                No arbitrage opportunities detected yet.
-              </p>
-              <p className="text-xs text-muted-foreground">
-                Configure your Supabase connection to start monitoring markets.
-              </p>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
+      <ArbitrageDetector onDetectionComplete={setActiveCount} />
     </div>
   )
 }
